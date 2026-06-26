@@ -1,0 +1,577 @@
+import { createFileRoute } from "@tanstack/react-router";
+import { useState } from "react";
+import {
+  Leaf, Droplets, Sprout, Grid3x3, Lightbulb, Mountain,
+  Flower2, Wind, Building2, ArrowRight, Phone, Mail, MapPin,
+  Star, CheckCircle2, Clock, Users, Award, MessageSquare,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
+import { toast } from "sonner";
+import { Toaster } from "@/components/ui/sonner";
+
+import heroImg from "@/assets/hero-landscape.jpg";
+import projSod from "@/assets/project-sod.jpg";
+import projLighting from "@/assets/project-lighting.jpg";
+import projRocks from "@/assets/project-rocks.jpg";
+import projTurf from "@/assets/project-turf.jpg";
+import projDrainage from "@/assets/project-drainage.jpg";
+import projPlants from "@/assets/project-plants.jpg";
+
+export const Route = createFileRoute("/")({
+  head: () => ({
+    meta: [
+      { title: "Citrus Landscape Solutions | Landscaping Company Tampa & Carrollwood" },
+      {
+        name: "description",
+        content:
+          "Tampa Bay's trusted landscaping experts. Landscape design, French drains, sod installation, artificial turf & outdoor lighting in Tampa, Carrollwood, St. Pete & Clearwater.",
+      },
+      { property: "og:title", content: "Citrus Landscape Solutions | Tampa Bay Landscaping Experts" },
+      {
+        property: "og:description",
+        content:
+          "Professional landscape design, drainage solutions, sod, artificial turf, and outdoor lighting for Florida properties.",
+      },
+      { property: "og:url", content: "/" },
+      { property: "og:image", content: heroImg },
+      { name: "twitter:image", content: heroImg },
+    ],
+    links: [{ rel: "canonical", href: "/" }],
+  }),
+  component: Home,
+});
+
+const services = [
+  { icon: Leaf, title: "Landscape Design", desc: "Custom Florida-friendly designs that elevate curb appeal year-round." },
+  { icon: Droplets, title: "Drainage & French Drains", desc: "Solve flooding, erosion, and standing water with expert drainage systems." },
+  { icon: Sprout, title: "Sod Installation", desc: "Premium sod delivered fresh and installed for an instant lush lawn." },
+  { icon: Grid3x3, title: "Artificial Turf", desc: "Low-maintenance, pet-friendly turf that stays green through Florida summers." },
+  { icon: Lightbulb, title: "Landscape Lighting", desc: "Architectural lighting that transforms your home after sunset." },
+  { icon: Mountain, title: "Mulch & Rock Installation", desc: "Clean borders, fresh mulch, and decorative stone work." },
+  { icon: Flower2, title: "Plant Installation", desc: "Tropical and native plant selections that thrive in our climate." },
+  { icon: Wind, title: "Hurricane Damage Cleanup", desc: "Fast, reliable storm recovery and full landscape restoration." },
+  { icon: Building2, title: "Commercial Landscaping", desc: "Reliable maintenance and design for HOAs and commercial properties." },
+];
+
+const why = [
+  { icon: Users, title: "Experienced Local Team", desc: "5+ years serving Tampa Bay homeowners and businesses." },
+  { icon: Award, title: "High-Quality Materials", desc: "Premium sod, plants, and hardscape sourced for Florida." },
+  { icon: CheckCircle2, title: "Professional Installation", desc: "Crews that take pride in details and leave sites spotless." },
+  { icon: MessageSquare, title: "Clear Communication", desc: "You're informed at every step from quote to cleanup." },
+  { icon: Clock, title: "Reliable Scheduling", desc: "We show up on time — every time." },
+  { icon: Star, title: "Free Consultations", desc: "Honest advice and transparent quotes, no pressure." },
+];
+
+const projects = [
+  { img: projSod, title: "Fresh Sod Installation", tag: "Lawn Renovation" },
+  { img: projLighting, title: "Architectural Lighting", tag: "Outdoor Lighting" },
+  { img: projDrainage, title: "French Drain System", tag: "Drainage" },
+  { img: projTurf, title: "Artificial Turf Backyard", tag: "Turf" },
+  { img: projRocks, title: "Rock Border & Mulch", tag: "Hardscape" },
+  { img: projPlants, title: "Tropical Plant Bed", tag: "Plant Install" },
+];
+
+const testimonials = [
+  {
+    name: "MA Hagan",
+    text: "Jake and his crew fixed up a drain line out to the street that solved years of flooding next to my house. Reasonable price and professional work.",
+    role: "Drainage Solution",
+  },
+  {
+    name: "Amy Bacon",
+    text: "From the first contact to the final cleanup, everything was professional, efficient, and thoughtfully done. The crew took pride in every detail.",
+    role: "Artificial Turf Install",
+  },
+  {
+    name: "Stephanie Mandurano",
+    text: "Professional and attentive from start to finish. Beautiful results that perfectly fit our St. Pete home. The whole process was smooth and stress-free.",
+    role: "Landscape Design",
+  },
+  {
+    name: "Anastasia Peters",
+    text: "10/10 would use again! Mark was super friendly and the plant choice and placement were on point. My yard looks beautiful!",
+    role: "Plant Installation",
+  },
+  {
+    name: "Robert Gagnon",
+    text: "Citrus Landscape Solutions brought my yard back to life after hurricane damage. Professional, reliable, and on time!",
+    role: "Hurricane Restoration",
+  },
+  {
+    name: "Kyle Frerichs",
+    text: "Amazing job on our landscape lighting. Completely changed the look of our home — extremely happy with the workmanship and quality.",
+    role: "Outdoor Lighting",
+  },
+];
+
+const serviceAreas = [
+  "Tampa", "Carrollwood", "St. Petersburg", "Clearwater",
+  "Brandon", "Riverview", "Lutz", "Wesley Chapel",
+];
+
+function Home() {
+  return (
+    <div className="min-h-screen bg-background">
+      <Toaster richColors position="top-center" />
+      <Nav />
+      <Hero />
+      <TrustBar />
+      <Services />
+      <WhyUs />
+      <Gallery />
+      <Testimonials />
+      <ServiceArea />
+      <About />
+      <Contact />
+      <Footer />
+    </div>
+  );
+}
+
+function Nav() {
+  const [open, setOpen] = useState(false);
+  const links = [
+    { href: "#services", label: "Services" },
+    { href: "#gallery", label: "Projects" },
+    { href: "#reviews", label: "Reviews" },
+    { href: "#about", label: "About" },
+    { href: "#areas", label: "Service Area" },
+  ];
+  return (
+    <header className="sticky top-0 z-50 backdrop-blur-md bg-background/80 border-b border-border/60">
+      <div className="container-page flex items-center justify-between h-18 py-4">
+        <a href="#top" className="flex items-center gap-2.5 group">
+          <div className="relative h-10 w-10 rounded-xl bg-primary flex items-center justify-center shadow-soft">
+            <Leaf className="h-5 w-5 text-primary-foreground" strokeWidth={2.5} />
+            <span className="absolute -top-1 -right-1 h-3 w-3 rounded-full bg-citrus border-2 border-background" />
+          </div>
+          <div className="leading-tight">
+            <div className="font-display font-semibold text-base text-foreground">Citrus Landscape</div>
+            <div className="text-[10px] uppercase tracking-widest text-muted-foreground">Solutions · Tampa Bay</div>
+          </div>
+        </a>
+        <nav className="hidden lg:flex items-center gap-8">
+          {links.map((l) => (
+            <a key={l.href} href={l.href} className="text-sm font-medium text-foreground/80 hover:text-primary transition-colors">
+              {l.label}
+            </a>
+          ))}
+        </nav>
+        <div className="flex items-center gap-3">
+          <a href="tel:" className="hidden md:flex items-center gap-2 text-sm font-medium text-foreground/80 hover:text-primary transition-colors">
+            <Phone className="h-4 w-4" /> Call Now
+          </a>
+          <Button asChild size="sm" className="bg-citrus text-citrus-foreground hover:bg-citrus/90 shadow-soft">
+            <a href="#contact">Free Quote</a>
+          </Button>
+          <button className="lg:hidden p-2" onClick={() => setOpen(!open)} aria-label="Menu">
+            <div className="space-y-1.5">
+              <span className="block h-0.5 w-5 bg-foreground" />
+              <span className="block h-0.5 w-5 bg-foreground" />
+            </div>
+          </button>
+        </div>
+      </div>
+      {open && (
+        <div className="lg:hidden border-t border-border bg-background">
+          <div className="container-page py-4 flex flex-col gap-3">
+            {links.map((l) => (
+              <a key={l.href} href={l.href} onClick={() => setOpen(false)} className="py-2 text-sm font-medium text-foreground/80">
+                {l.label}
+              </a>
+            ))}
+          </div>
+        </div>
+      )}
+    </header>
+  );
+}
+
+function Hero() {
+  return (
+    <section id="top" className="relative overflow-hidden">
+      <div className="absolute inset-0">
+        <img
+          src={heroImg}
+          alt="Premium Florida landscape design with palm trees and lush lawn"
+          width={1920}
+          height={1280}
+          className="h-full w-full object-cover"
+        />
+        <div className="absolute inset-0" style={{ background: "var(--gradient-hero)" }} />
+      </div>
+      <div className="relative container-page py-28 md:py-40 lg:py-48">
+        <div className="max-w-3xl">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 backdrop-blur border border-white/20 text-white/90 text-xs font-medium mb-6">
+            <span className="h-1.5 w-1.5 rounded-full bg-citrus" />
+            Serving Tampa Bay & Greater Carrollwood
+          </div>
+          <h1 className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-medium text-white text-balance leading-[1.05]">
+            Transform Your Outdoor Space with Tampa Bay's <span className="italic text-citrus">Trusted</span> Landscaping Experts
+          </h1>
+          <p className="mt-6 text-lg md:text-xl text-white/85 max-w-2xl text-balance">
+            Professional landscaping, drainage solutions, sod installation, artificial turf, and outdoor transformations designed for Florida properties.
+          </p>
+          <div className="mt-10 flex flex-wrap gap-3">
+            <Button asChild size="lg" className="bg-citrus text-citrus-foreground hover:bg-citrus/90 h-14 px-7 text-base shadow-glow">
+              <a href="#contact">Get Free Consultation <ArrowRight className="ml-1 h-4 w-4" /></a>
+            </Button>
+            <Button asChild size="lg" variant="outline" className="h-14 px-7 text-base bg-white/10 text-white border-white/40 hover:bg-white hover:text-foreground backdrop-blur">
+              <a href="#contact">Request a Quote</a>
+            </Button>
+          </div>
+          <div className="mt-12 flex flex-wrap items-center gap-x-8 gap-y-3 text-white/80 text-sm">
+            <div className="flex items-center gap-2">
+              <div className="flex">{[...Array(5)].map((_, i) => <Star key={i} className="h-4 w-4 fill-citrus text-citrus" />)}</div>
+              <span className="font-medium">4.4 · 29 Google reviews</span>
+            </div>
+            <div className="flex items-center gap-2"><CheckCircle2 className="h-4 w-4 text-citrus" /> Licensed & Insured</div>
+            <div className="flex items-center gap-2"><CheckCircle2 className="h-4 w-4 text-citrus" /> Free Consultations</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function TrustBar() {
+  const stats = [
+    { num: "5+", label: "Years in Business" },
+    { num: "500+", label: "Projects Completed" },
+    { num: "4.4★", label: "Google Rating" },
+    { num: "8+", label: "Cities Served" },
+  ];
+  return (
+    <section className="border-b border-border bg-secondary/50">
+      <div className="container-page py-10">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+          {stats.map((s) => (
+            <div key={s.label} className="text-center md:text-left">
+              <div className="font-display text-3xl md:text-4xl font-medium text-primary">{s.num}</div>
+              <div className="text-xs uppercase tracking-widest text-muted-foreground mt-1">{s.label}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Services() {
+  return (
+    <section id="services" className="py-24 md:py-32">
+      <div className="container-page">
+        <SectionHeader
+          eyebrow="What We Do"
+          title="Complete Landscaping Services for Florida Properties"
+          desc="From design and installation to drainage and storm recovery — one expert team for every outdoor need."
+        />
+        <div className="mt-16 grid sm:grid-cols-2 lg:grid-cols-3 gap-px bg-border rounded-2xl overflow-hidden shadow-soft">
+          {services.map((s) => (
+            <div key={s.title} className="group bg-card p-8 hover:bg-secondary/60 transition-colors">
+              <div className="h-12 w-12 rounded-xl bg-primary/10 flex items-center justify-center group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
+                <s.icon className="h-6 w-6 text-primary group-hover:text-primary-foreground transition-colors" strokeWidth={1.75} />
+              </div>
+              <h3 className="mt-5 font-display text-xl font-semibold text-foreground">{s.title}</h3>
+              <p className="mt-2 text-muted-foreground leading-relaxed">{s.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function WhyUs() {
+  return (
+    <section className="py-24 md:py-32 bg-secondary/40 border-y border-border">
+      <div className="container-page">
+        <div className="grid lg:grid-cols-12 gap-12 lg:gap-20 items-start">
+          <div className="lg:col-span-5 lg:sticky lg:top-28">
+            <span className="text-xs uppercase tracking-widest text-citrus font-semibold">Why Choose Us</span>
+            <h2 className="mt-3 font-display text-4xl md:text-5xl font-medium text-foreground text-balance leading-[1.1]">
+              Built on trust, craftsmanship, and Florida know-how.
+            </h2>
+            <p className="mt-6 text-lg text-muted-foreground">
+              We've earned 4.4 stars across 29 Google reviews by showing up on time, communicating clearly, and treating every property like our own.
+            </p>
+            <Button asChild size="lg" className="mt-8 bg-primary hover:bg-primary/90">
+              <a href="#contact">Start Your Project <ArrowRight className="ml-1 h-4 w-4" /></a>
+            </Button>
+          </div>
+          <div className="lg:col-span-7 grid sm:grid-cols-2 gap-5">
+            {why.map((w) => (
+              <div key={w.title} className="p-7 rounded-2xl bg-card border border-border hover:shadow-elegant transition-all hover:-translate-y-1">
+                <w.icon className="h-7 w-7 text-citrus" strokeWidth={1.75} />
+                <h3 className="mt-4 font-display text-lg font-semibold text-foreground">{w.title}</h3>
+                <p className="mt-1.5 text-sm text-muted-foreground leading-relaxed">{w.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Gallery() {
+  return (
+    <section id="gallery" className="py-24 md:py-32">
+      <div className="container-page">
+        <SectionHeader
+          eyebrow="Featured Projects"
+          title="Transformations Across Tampa Bay"
+          desc="A selection of recent installations — drainage, design, turf, lighting, and full landscape renovations."
+        />
+        <div className="mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+          {projects.map((p, i) => (
+            <div
+              key={p.title}
+              className={`group relative overflow-hidden rounded-2xl shadow-soft hover:shadow-elegant transition-all ${i === 0 ? "md:col-span-2 md:row-span-2" : ""}`}
+            >
+              <img
+                src={p.img}
+                alt={p.title}
+                loading="lazy"
+                width={1024}
+                height={768}
+                className={`w-full object-cover transition-transform duration-700 group-hover:scale-105 ${i === 0 ? "h-full min-h-[500px]" : "h-72"}`}
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-charcoal/85 via-charcoal/20 to-transparent" />
+              <div className="absolute bottom-0 left-0 right-0 p-6">
+                <span className="inline-block px-2.5 py-1 rounded-full bg-citrus text-citrus-foreground text-[10px] uppercase tracking-widest font-bold">{p.tag}</span>
+                <h3 className="mt-3 font-display text-xl md:text-2xl font-medium text-white">{p.title}</h3>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Testimonials() {
+  return (
+    <section id="reviews" className="py-24 md:py-32 bg-charcoal text-white">
+      <div className="container-page">
+        <div className="max-w-3xl">
+          <span className="text-xs uppercase tracking-widest text-citrus font-semibold">Reviews</span>
+          <h2 className="mt-3 font-display text-4xl md:text-5xl font-medium text-balance leading-[1.1]">
+            What Tampa Bay homeowners are saying.
+          </h2>
+          <div className="mt-6 flex items-center gap-4">
+            <div className="flex">{[...Array(5)].map((_, i) => <Star key={i} className="h-5 w-5 fill-citrus text-citrus" />)}</div>
+            <span className="text-white/80">4.4 average · 29 Google reviews</span>
+          </div>
+        </div>
+        <div className="mt-14 grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+          {testimonials.map((t) => (
+            <figure key={t.name} className="p-7 rounded-2xl bg-white/5 backdrop-blur border border-white/10 hover:bg-white/10 transition-colors flex flex-col">
+              <div className="flex mb-4">{[...Array(5)].map((_, i) => <Star key={i} className="h-4 w-4 fill-citrus text-citrus" />)}</div>
+              <blockquote className="text-white/90 leading-relaxed flex-1">"{t.text}"</blockquote>
+              <figcaption className="mt-6 pt-5 border-t border-white/10">
+                <div className="font-semibold">{t.name}</div>
+                <div className="text-xs text-white/60 mt-0.5">{t.role}</div>
+              </figcaption>
+            </figure>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function ServiceArea() {
+  return (
+    <section id="areas" className="py-24 md:py-32">
+      <div className="container-page">
+        <div className="grid lg:grid-cols-2 gap-16 items-center">
+          <div>
+            <span className="text-xs uppercase tracking-widest text-citrus font-semibold">Service Area</span>
+            <h2 className="mt-3 font-display text-4xl md:text-5xl font-medium text-foreground text-balance leading-[1.1]">
+              Proudly serving the Greater Tampa Bay area.
+            </h2>
+            <p className="mt-6 text-lg text-muted-foreground">
+              Based in Carrollwood, our crews work across Hillsborough and Pinellas counties — bringing trusted local expertise to every project.
+            </p>
+            <Button asChild size="lg" className="mt-8 bg-citrus text-citrus-foreground hover:bg-citrus/90">
+              <a href="#contact">Check Your Address</a>
+            </Button>
+          </div>
+          <div className="grid grid-cols-2 gap-3">
+            {serviceAreas.map((city) => (
+              <div key={city} className="flex items-center gap-3 p-4 rounded-xl bg-secondary border border-border">
+                <MapPin className="h-4 w-4 text-primary shrink-0" />
+                <span className="font-medium text-foreground text-sm md:text-base">{city}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function About() {
+  return (
+    <section id="about" className="py-24 md:py-32 bg-primary text-primary-foreground relative overflow-hidden">
+      <div className="absolute inset-0 opacity-10" style={{ backgroundImage: "radial-gradient(circle at 20% 50%, white 1px, transparent 1px)", backgroundSize: "32px 32px" }} />
+      <div className="relative container-page">
+        <div className="max-w-3xl">
+          <span className="text-xs uppercase tracking-widest text-citrus font-semibold">About Citrus</span>
+          <h2 className="mt-3 font-display text-4xl md:text-5xl font-medium text-balance leading-[1.1]">
+            Helping Florida homeowners create beautiful, functional, and lasting outdoor spaces.
+          </h2>
+          <div className="mt-8 space-y-5 text-lg text-primary-foreground/85 leading-relaxed">
+            <p>
+              Citrus Landscape Solutions is a Tampa Bay landscaping company built on professionalism, quality craftsmanship, and clear communication. For more than five years, we've helped homeowners, HOAs, and commercial property owners transform their outdoor spaces.
+            </p>
+            <p>
+              From solving stubborn drainage issues with engineered French drain systems, to laying premium sod and installing architectural lighting — we bring deep Florida-specific expertise to every project. We believe a great landscape is more than curb appeal: it's a system that works with our climate, manages our rain, and gives you a yard you actually enjoy.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Contact() {
+  const [submitting, setSubmitting] = useState(false);
+
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    setSubmitting(true);
+    setTimeout(() => {
+      toast.success("Quote request received! We'll be in touch within 1 business day.");
+      (e.target as HTMLFormElement).reset();
+      setSubmitting(false);
+    }, 700);
+  }
+
+  return (
+    <section id="contact" className="py-24 md:py-32 bg-secondary/50 border-t border-border">
+      <div className="container-page">
+        <div className="grid lg:grid-cols-5 gap-12 lg:gap-16">
+          <div className="lg:col-span-2">
+            <span className="text-xs uppercase tracking-widest text-citrus font-semibold">Get In Touch</span>
+            <h2 className="mt-3 font-display text-4xl md:text-5xl font-medium text-foreground text-balance leading-[1.1]">
+              Request your free quote today.
+            </h2>
+            <p className="mt-5 text-lg text-muted-foreground">
+              Tell us about your property and we'll follow up within one business day with honest advice and a clear estimate.
+            </p>
+            <div className="mt-10 space-y-5">
+              <ContactItem icon={Phone} label="Call us" value="(813) Tampa-Bay" />
+              <ContactItem icon={Mail} label="Email" value="hello@citruslandscape.com" />
+              <ContactItem icon={MapPin} label="Based in" value="Carrollwood, FL · Serving Tampa Bay" />
+              <ContactItem icon={Clock} label="Hours" value="Mon–Sat · By Appointment" />
+            </div>
+          </div>
+
+          <form onSubmit={handleSubmit} className="lg:col-span-3 p-8 md:p-10 rounded-3xl bg-card border border-border shadow-soft space-y-5">
+            <div className="grid sm:grid-cols-2 gap-5">
+              <Field id="name" label="Name" required><Input id="name" name="name" required placeholder="John Smith" /></Field>
+              <Field id="phone" label="Phone" required><Input id="phone" name="phone" type="tel" required placeholder="(813) 555-0100" /></Field>
+            </div>
+            <Field id="email" label="Email" required><Input id="email" name="email" type="email" required placeholder="you@email.com" /></Field>
+            <Field id="address" label="Property Address" required><Input id="address" name="address" required placeholder="123 Main St, Tampa, FL" /></Field>
+            <Field id="services" label="Services Needed">
+              <Input id="services" name="services" placeholder="e.g. French drain + sod installation" />
+            </Field>
+            <Field id="description" label="Project Description">
+              <Textarea id="description" name="description" rows={4} placeholder="Tell us about your yard, the issues you're seeing, or the vision you have…" />
+            </Field>
+            <Button type="submit" disabled={submitting} size="lg" className="w-full bg-citrus text-citrus-foreground hover:bg-citrus/90 h-14 text-base shadow-soft">
+              {submitting ? "Sending…" : <>Request Free Quote <ArrowRight className="ml-1 h-4 w-4" /></>}
+            </Button>
+            <p className="text-xs text-muted-foreground text-center">No obligation · Response within 1 business day</p>
+          </form>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Footer() {
+  return (
+    <footer className="bg-charcoal text-white/70 py-14">
+      <div className="container-page">
+        <div className="grid md:grid-cols-4 gap-10">
+          <div className="md:col-span-2">
+            <div className="flex items-center gap-2.5">
+              <div className="h-10 w-10 rounded-xl bg-primary flex items-center justify-center">
+                <Leaf className="h-5 w-5 text-primary-foreground" strokeWidth={2.5} />
+              </div>
+              <div className="leading-tight">
+                <div className="font-display font-semibold text-white text-base">Citrus Landscape Solutions</div>
+                <div className="text-[10px] uppercase tracking-widest text-white/50">Tampa Bay · Carrollwood</div>
+              </div>
+            </div>
+            <p className="mt-5 max-w-md text-sm leading-relaxed">
+              Professional landscape design, drainage, sod, turf, and lighting for Florida properties. Licensed, insured, and locally trusted since 2020.
+            </p>
+          </div>
+          <div>
+            <h4 className="text-white font-semibold text-sm uppercase tracking-wider mb-4">Services</h4>
+            <ul className="space-y-2.5 text-sm">
+              <li><a href="#services" className="hover:text-citrus transition-colors">Landscape Design</a></li>
+              <li><a href="#services" className="hover:text-citrus transition-colors">French Drains</a></li>
+              <li><a href="#services" className="hover:text-citrus transition-colors">Sod Installation</a></li>
+              <li><a href="#services" className="hover:text-citrus transition-colors">Artificial Turf</a></li>
+              <li><a href="#services" className="hover:text-citrus transition-colors">Outdoor Lighting</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4 className="text-white font-semibold text-sm uppercase tracking-wider mb-4">Service Area</h4>
+            <ul className="space-y-2.5 text-sm">
+              {serviceAreas.slice(0, 6).map((c) => <li key={c}>{c}, FL</li>)}
+            </ul>
+          </div>
+        </div>
+        <div className="mt-12 pt-6 border-t border-white/10 text-xs text-white/50 flex flex-wrap justify-between gap-3">
+          <div>© {new Date().getFullYear()} Citrus Landscape Solutions. All rights reserved.</div>
+          <div>Licensed & Insured · Tampa, FL</div>
+        </div>
+      </div>
+    </footer>
+  );
+}
+
+function SectionHeader({ eyebrow, title, desc }: { eyebrow: string; title: string; desc: string }) {
+  return (
+    <div className="max-w-2xl">
+      <span className="text-xs uppercase tracking-widest text-citrus font-semibold">{eyebrow}</span>
+      <h2 className="mt-3 font-display text-4xl md:text-5xl font-medium text-foreground text-balance leading-[1.1]">{title}</h2>
+      <p className="mt-5 text-lg text-muted-foreground">{desc}</p>
+    </div>
+  );
+}
+
+function ContactItem({ icon: Icon, label, value }: { icon: typeof Phone; label: string; value: string }) {
+  return (
+    <div className="flex items-start gap-4">
+      <div className="h-11 w-11 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
+        <Icon className="h-5 w-5 text-primary" strokeWidth={1.75} />
+      </div>
+      <div>
+        <div className="text-xs uppercase tracking-widest text-muted-foreground font-semibold">{label}</div>
+        <div className="mt-1 text-foreground font-medium">{value}</div>
+      </div>
+    </div>
+  );
+}
+
+function Field({ id, label, required, children }: { id: string; label: string; required?: boolean; children: React.ReactNode }) {
+  return (
+    <div className="space-y-2">
+      <Label htmlFor={id} className="text-sm font-medium">
+        {label} {required && <span className="text-citrus">*</span>}
+      </Label>
+      {children}
+    </div>
+  );
+}
